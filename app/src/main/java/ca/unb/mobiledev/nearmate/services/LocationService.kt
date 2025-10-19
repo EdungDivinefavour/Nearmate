@@ -18,27 +18,7 @@ interface ILocationService {
     fun stopLocationUpdates()
 }
 
-class LocationService private constructor (private val activity: Activity) : ILocationService {
-    companion object {
-        @Volatile
-        private var instance: LocationService? = null
-
-        fun init(activity: Activity) {
-            if (instance == null) {
-                synchronized(this) {
-                    if (instance == null) {
-                        instance = LocationService(activity)
-                    }
-                }
-            }
-        }
-
-        fun getInstance(): LocationService {
-            return instance
-                ?: throw IllegalStateException("LocationService must be initialized with init(activity) first")
-        }
-    }
-
+class LocationService (private val activity: Activity) : ILocationService {
     private val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(activity)
 

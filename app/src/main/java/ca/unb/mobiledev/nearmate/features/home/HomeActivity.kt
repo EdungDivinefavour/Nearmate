@@ -12,8 +12,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        LocationService.init(this)
-        LocationService.getInstance().requestLocationPermission()
+        LocationService(this).requestLocationPermission()
 
         val viewPager = findViewById<ViewPager2>(R.id.view_pager)
         viewPager.adapter = ViewPagerAdapter(this)

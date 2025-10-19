@@ -1,13 +1,9 @@
 package ca.unb.mobiledev.nearmate.features.home.map
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import ca.unb.mobiledev.nearmate.R
@@ -18,20 +14,19 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import kotlinx.coroutines.launch
 
 class MapFragment : Fragment(), OnMapReadyCallback {
-    private val locationService = LocationService.getInstance()
+
+    private val locationService by lazy { LocationService(requireActivity()) }
     private lateinit var mMap: GoogleMap
     private val userService = UserService()
     private val markers = mutableMapOf<String, Marker>()
+    private val pinAnimator = PinAnimator()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.fragment_map, container, false)
@@ -46,13 +41,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        this@MapFragment.mMap = googleMap
-        mMap.setInfoWindowAdapter(InfoWindowAdapter(requireContext()))
+        mMap = googleMap
 
         locationService.getLocation { location ->
-            if (location != null) {
-                addMarkerAtCurrentLocation(location)
-                userService.listenForUsersNearLocation(location.latitude, location.longitude, MAP_FETCH_RADIUS)
+            if (location == null) {
+                locationService.requestLocationPermission()
+            }
+
+            else {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_LEVEL))
+                pinAnimator.startRadarPulse(location, mMap)
+
+                userService.listenForUsersNearLocation(
+                    location.latitude,
+                    location.longitude,
+                    MAP_FETCH_RADIUS
+                )
             }
         }
 
@@ -60,16 +64,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             userService.nearbyUsers.collect { users ->
                 updateMarkers(users)
             }
-        }
-    }
-
-    private fun addMarkerAtCurrentLocation(location: LatLng) {
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mMap.isMyLocationEnabled = true
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_LEVEL))
-        } else {
-            locationService.requestLocationPermission()
         }
     }
 
@@ -103,8 +97,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+
+
     override fun onDestroyView() {
         super.onDestroyView()
+        pinAnimator.dispose()
         userService.stopListening()
     }
 
