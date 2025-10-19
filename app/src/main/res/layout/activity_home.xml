@@ -23,7 +23,6 @@
             android:layout_gravity="bottom"
             app:menu="@menu/bottom_nav_menu"
             app:itemIconSize="28dp"
-            app:itemBackground="@android:color/transparent"
             app:itemRippleColor="@android:color/transparent"/>
     </FrameLayout>
 </FrameLayout>

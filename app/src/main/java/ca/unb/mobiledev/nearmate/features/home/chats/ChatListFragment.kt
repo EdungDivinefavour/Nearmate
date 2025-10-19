@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import ca.unb.mobiledev.nearmate.R
 import ca.unb.mobiledev.nearmate.features.chatroom.ChatRoomActivity
 import ca.unb.mobiledev.nearmate.models.ChatRoom
-import ca.unb.mobiledev.nearmate.services.ChatServiceImpl
+import ca.unb.mobiledev.nearmate.services.ChatService
 import com.google.firebase.auth.FirebaseAuth
 
 class ChatListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ChatListAdapter
-    private val chatService = ChatServiceImpl()
+    private val chatService = ChatService()
     private val chatRooms = mutableListOf<ChatRoom>()
     private var listenerRegistration: com.google.firebase.firestore.ListenerRegistration? = null
 

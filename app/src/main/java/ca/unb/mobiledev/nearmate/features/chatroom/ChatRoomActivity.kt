@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.unb.mobiledev.nearmate.R
 import ca.unb.mobiledev.nearmate.models.ChatMessage
-import ca.unb.mobiledev.nearmate.services.ChatServiceImpl
+import ca.unb.mobiledev.nearmate.services.ChatService
 import com.google.firebase.auth.FirebaseAuth
 
 class ChatRoomActivity : AppCompatActivity() {
@@ -18,7 +18,7 @@ class ChatRoomActivity : AppCompatActivity() {
     private lateinit var sendButton: ImageButton
     private lateinit var adapter: MessageAdapter
 
-    private val chatService = ChatServiceImpl()
+    private val chatService = ChatService()
     private val messages = mutableListOf<ChatMessage>()
     private var listenerRegistration: com.google.firebase.firestore.ListenerRegistration? = null
 

@@ -9,18 +9,35 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 
 interface ILocationService {
     fun requestLocationPermission(): Boolean
-    fun getLat(): Double
-    fun getLng(): Double
+    fun getLocation(onResult: (LatLng?) -> Unit)
     fun startLocationUpdates(onResult: (lat: Double, lng: Double) -> Unit)
     fun stopLocationUpdates()
 }
 
-class LocationService(private val activity: Activity) : ILocationService {
-    private var currentLat: Double = 0.0
-    private var currentLng: Double = 0.0
+class LocationService private constructor (private val activity: Activity) : ILocationService {
+    companion object {
+        @Volatile
+        private var instance: LocationService? = null
+
+        fun init(activity: Activity) {
+            if (instance == null) {
+                synchronized(this) {
+                    if (instance == null) {
+                        instance = LocationService(activity)
+                    }
+                }
+            }
+        }
+
+        fun getInstance(): LocationService {
+            return instance
+                ?: throw IllegalStateException("LocationService must be initialized with init(activity) first")
+        }
+    }
 
     private val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(activity)
@@ -38,8 +55,22 @@ class LocationService(private val activity: Activity) : ILocationService {
         }
     }
 
-    override fun getLat(): Double = currentLat
-    override fun getLng(): Double = currentLng
+    override fun getLocation(onResult: (LatLng?) -> Unit) {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    onResult(LatLng(location.latitude, location.longitude))
+                } else {
+                    onResult(null)
+                }
+            }.addOnFailureListener {
+                onResult(null)
+            }
+        } else {
+            onResult(null)
+        }
+    }
+
 
     override fun startLocationUpdates(onResult: (lat: Double, lng: Double) -> Unit) {
         locationRunnable = object : Runnable {
@@ -47,9 +78,7 @@ class LocationService(private val activity: Activity) : ILocationService {
                 if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                         if (location != null) {
-                            currentLat = location.latitude
-                            currentLng = location.longitude
-                            onResult(currentLat, currentLng)
+                            onResult(location.latitude, location.longitude)
                         }
                     }
                 }
