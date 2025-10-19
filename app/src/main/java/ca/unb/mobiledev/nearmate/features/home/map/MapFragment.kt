@@ -19,8 +19,9 @@ import kotlinx.coroutines.launch
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
-    private val locationService by lazy { LocationService(requireActivity()) }
     private lateinit var mMap: GoogleMap
+
+    private val locationService by lazy { LocationService(requireActivity()) }
     private val userService = UserService()
     private val markers = mutableMapOf<String, Marker>()
     private val pinAnimator = PinAnimator()
@@ -96,8 +97,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(first.lat, first.lng), 10f))
         }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

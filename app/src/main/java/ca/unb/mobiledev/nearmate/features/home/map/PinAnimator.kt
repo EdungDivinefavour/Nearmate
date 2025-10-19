@@ -24,7 +24,7 @@ class PinAnimator {
             CircleOptions()
                 .center(userLatLng)
                 .radius(USER_DOT_RADIUS) // small radius in meters
-                .strokeColor(Color.BLUE)
+                .strokeColor(R.color.colorPrimaryDark)
                 .strokeWidth(2f)
                 .fillColor(R.color.colorPrimary)
         )
@@ -33,8 +33,8 @@ class PinAnimator {
         pulseCircle = map.addCircle(
             CircleOptions()
                 .center(userLatLng)
-                .radius(0.05)
-                .strokeColor(Color.BLUE)
+                .radius(USER_DOT_RADIUS)
+                .strokeColor(R.color.colorPrimaryDark)
                 .strokeWidth(0.5f)
                 .fillColor(R.color.colorPrimaryLight)
         )

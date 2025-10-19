@@ -13,6 +13,7 @@ import java.util.concurrent.CompletableFuture
 
 interface IUserService {
     fun listenForUsersNearLocation(lat: Double, lng: Double, radius: Double, onUpdate: (List<User>) -> Unit = {}): Unit
+    fun stopListening()
     fun register(firstName: String, lastName: String, email: String, password: String, lat: Double, lng: Double): CompletableFuture<User?>
     fun login(email: String, password: String): CompletableFuture<User?>
     fun updateProfile(user: User): CompletableFuture<User>
@@ -35,7 +36,6 @@ class UserService : IUserService {
         val maxLng = lng + DistanceUtils.lngDelta(lng, radius)
 
         listenerRegistration?.remove()
-
         listenerRegistration = firebaseFirestore.collection("users")
             .whereGreaterThanOrEqualTo("lat", minLat)
             .whereLessThanOrEqualTo("lat", maxLat)
@@ -56,7 +56,7 @@ class UserService : IUserService {
             }
     }
 
-    fun stopListening() {
+    override fun stopListening() {
         listenerRegistration?.remove()
         listenerRegistration = null
     }
