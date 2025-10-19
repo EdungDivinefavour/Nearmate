@@ -9,7 +9,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import java.util.concurrent.CompletableFuture
 
-interface ChatService {
+interface IChatService {
     fun sendMessage(receiverId: String, messageText: String): CompletableFuture<ChatMessage>
     fun listenForMessages(
         chatId: String,
@@ -24,7 +24,7 @@ interface ChatService {
     fun getChatId(userId1: String, userId2: String): String
 }
 
-class ChatServiceImpl : ChatService {
+class ChatService : IChatService {
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val firestore = FirebaseFirestore.getInstance()
 

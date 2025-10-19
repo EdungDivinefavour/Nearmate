@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
-interface LocationService {
+interface ILocationService {
     fun requestLocationPermission(): Boolean
     fun getLat(): Double
     fun getLng(): Double
@@ -18,7 +18,7 @@ interface LocationService {
     fun stopLocationUpdates()
 }
 
-class LocationServiceImpl(private val activity: Activity) : LocationService {
+class LocationService(private val activity: Activity) : ILocationService {
     private var currentLat: Double = 0.0
     private var currentLng: Double = 0.0
 

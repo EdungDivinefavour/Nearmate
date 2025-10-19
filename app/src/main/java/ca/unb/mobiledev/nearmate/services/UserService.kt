@@ -8,15 +8,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.concurrent.CompletableFuture
 
-interface UserService {
+interface IUserService {
     fun findNearLocation(lat: Double, lng: Double, radius: Double): CompletableFuture<List<User>>
     fun register(firstName: String, lastName: String, email: String, password: String, lat: Double, lng: Double): CompletableFuture<User?>
     fun login(email: String, password: String): CompletableFuture<User?>
     fun updateProfile(user: User): CompletableFuture<User>
     fun sendPasswordResetEmail(email: String): CompletableFuture<Boolean>
+    fun logout(): CompletableFuture<Boolean>
 }
 
-class UserServiceImpl: UserService {
+class UserService: IUserService {
     val firebaseAuth = FirebaseAuth.getInstance()
     val firebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -143,6 +144,17 @@ class UserServiceImpl: UserService {
             .addOnSuccessListener { future.complete(true) }
             .addOnFailureListener { e -> future.completeExceptionally(e) }
 
+        return future
+    }
+
+    override fun logout(): CompletableFuture<Boolean> {
+        val future = CompletableFuture<Boolean>()
+        try {
+            firebaseAuth.signOut()
+            future.complete(true)
+        } catch (e: Exception) {
+            future.completeExceptionally(e)
+        }
         return future
     }
 }
