@@ -44,9 +44,9 @@ data class User (
                 userName = map["userName"] as? String,
                 prefersToShowUserName = map["prefersToShowUserName"] as? Boolean ?: false,
                 email = map["email"] as? String ?: "",
-                country = (map["country"] as? String)?.let { Country.values().first { c -> c.value == it } },
-                status = Status.values().first { it.value == map["status"] as? String },
-                presence = Presence.values().first { it.value == map["presence"] as? String },
+                country = (map["country"] as? String)?.let { Country.entries.first { c -> c.value == it } },
+                status = Status.entries.first { it.value == map["status"] as? String },
+                presence = Presence.entries.first { it.value == map["presence"] as? String },
                 profilePhoto = map["profilePhoto"] as? String,
                 lat = map["lat"] as? Double ?: 0.0,
                 lng = map["lng"] as? Double ?: 0.0
