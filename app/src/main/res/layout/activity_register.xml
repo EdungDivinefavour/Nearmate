@@ -7,24 +7,41 @@
     android:layout_height="match_parent"
     tools:context=".features.register.RegisterActivity">
 
-    <Button
-        android:id="@+id/registerButton"
+    <FrameLayout
+        android:id="@+id/registerButtonContainer"
         android:layout_width="357dp"
         android:layout_height="55dp"
         android:layout_marginStart="27dp"
         android:layout_marginEnd="27dp"
-        android:background="@drawable/rounded_corner"
-        android:backgroundTint="@color/colorPrimary"
-        android:fontFamily="@font/poppins"
-        android:text="@string/register"
-        android:textColor="@color/white"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.913" />
+        app:layout_constraintVertical_bias="0.913">
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/colorPrimary"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/register"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textAllCaps="false" />
+
+        <ProgressBar
+            android:id="@+id/registerProgressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/white"
+            android:indeterminateTintMode="src_in" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/registerLoginRedirectTV"
@@ -40,9 +57,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton"
+        app:layout_constraintTop_toBottomOf="@+id/registerButtonContainer"
         app:layout_constraintVertical_bias="0.282"
-        android:clickable="true"/>
+        android:clickable="true" />
 
     <TextView
         android:id="@+id/register"
@@ -190,4 +207,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lastNameInput"
         app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
