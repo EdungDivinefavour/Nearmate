@@ -8,12 +8,11 @@
     tools:context=".features.splash.SplashActivity">
 
     <TextView
-        android:id="@+id/App_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_extrabold"
         android:letterSpacing="-0.078"
-        android:text="NearMate"
+        android:text="@string/app_name"
         android:textColor="@color/black"
         android:textSize="46sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,11 +22,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Slogan"
+        android:id="@+id/slogan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="Friendship first..."
+        android:text="@string/friendship_first"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

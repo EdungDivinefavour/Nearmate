@@ -20,9 +20,8 @@ class RegisterActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // To redirect to the login page from register
-        val goToLogin2 = findViewById<TextView>(R.id.reg_lgin_redirect_tV)
-        goToLogin2.setOnClickListener {
+        val goToLogin = findViewById<TextView>(R.id.registerLoginRedirectTV)
+        goToLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }

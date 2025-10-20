@@ -1,10 +1,10 @@
 <resources>
 
-    <color name="black">#FF000000</color>
-    <color name="white">#F6FCFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
     <!-- Primary brand color -->
-    <color name="primary_color">#FC011828</color>
+    <color name="colorPrimary">#FC011828</color>
     <color name="colorPrimaryDark">#1565C0</color>
     <color name="colorPrimaryLight">#64B5F6</color>
 

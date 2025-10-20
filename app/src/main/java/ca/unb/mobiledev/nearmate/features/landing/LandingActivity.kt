@@ -24,14 +24,14 @@ class LandingActivity : AppCompatActivity() {
             insets
         }
 
-        val goToRegister = findViewById<Button>(R.id.getStartedbtn)
+        val goToRegister = findViewById<Button>(R.id.getStartedBtn)
+        val goToLogin = findViewById<TextView>(R.id.haveAnAccountTv)
+
         goToRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
 
-        // To redirect to the login page from landing
-        val goToLogin = findViewById<TextView>(R.id.have_an_account_tV)
         goToLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
