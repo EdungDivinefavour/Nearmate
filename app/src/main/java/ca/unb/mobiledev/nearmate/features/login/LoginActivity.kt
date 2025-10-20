@@ -11,10 +11,9 @@ import androidx.core.view.WindowInsetsCompat
 import ca.unb.mobiledev.nearmate.R
 import ca.unb.mobiledev.nearmate.features.home.HomeActivity
 import ca.unb.mobiledev.nearmate.services.UserService
-
-//added imports
-
 import android.widget.EditText
+import android.widget.ProgressBar
+import android.view.View
 
 
 class LoginActivity : AppCompatActivity() {
@@ -29,23 +28,32 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val emailET    = findViewById<EditText>(R.id.emailLoginInput)
         val passwordET = findViewById<EditText>(R.id.passwordLoginInput)
         val loginBtn   = findViewById<Button>(R.id.loginButton)
+        val progressBar = findViewById<ProgressBar>(R.id.loginProgressBar)
 
         loginBtn.setOnClickListener {
             val email = emailET.text.toString().trim()
             val password = passwordET.text.toString()
 
-            // not null requirement
             when {
                 email.isEmpty() -> { emailET.error = "Email required"; return@setOnClickListener }
                 password.isEmpty() -> { passwordET.error = "Password required"; return@setOnClickListener }
             }
 
+            loginBtn.text = ""
+            loginBtn.isEnabled = false
+            progressBar.visibility = View.VISIBLE
+
             userService.login(email, password)
                 .thenAccept { user ->
                     runOnUiThread {
+                        progressBar.visibility = View.GONE
+                        loginBtn.text = getString(R.string.login)
+                        loginBtn.isEnabled = true
+
                         if (user != null) {
                             Toast.makeText(this, "Welcome ${user.firstName}", Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this, HomeActivity::class.java))
@@ -57,66 +65,13 @@ class LoginActivity : AppCompatActivity() {
                 }
                 .exceptionally { e ->
                     runOnUiThread {
+                        progressBar.visibility = View.GONE
+                        loginBtn.text = getString(R.string.login)
+                        loginBtn.isEnabled = true
                         Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
                     null
                 }
         }
-
-//        testSignup.setOnClickListener {
-//            userService.register(
-//                "Bluuuhh",
-//                "Name",
-//                "serialize.edung@gmail.com",
-//                "qqqqqqqq",
-//                34.234234,
-//                3.4234324
-//            )
-//                .thenAccept { user ->
-//                    if (user != null) {
-//                        // Runs on a background thread by default
-//                        runOnUiThread {
-//                            Toast.makeText(this, "Welcome ${user.firstName}", Toast.LENGTH_SHORT).show()
-//                        }
-//                    } else {
-//                        runOnUiThread {
-//                            Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                }
-//                .exceptionally { e ->
-//                    runOnUiThread {
-//                        Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-//                    }
-//                    null
-//                }
-//        }
-//
-//        testFindUsers.setOnClickListener {
-//            userService.findNearLocation(
-//                45.0000,
-//                -66.0000,
-//                5.0,
-//            )
-//                .thenAccept { users ->
-//                    if (users != null) {
-//                        // Runs on a background thread by default
-//                        runOnUiThread {
-//                            Toast.makeText(this, "Buuuuuuh", Toast.LENGTH_SHORT).show()
-//                        }
-//                    } else {
-//                        runOnUiThread {
-//                            Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                }
-//                .exceptionally { e ->
-//                    runOnUiThread {
-//                        Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-//                    }
-//                    null
-//                }
-//        }
     }
-
 }
