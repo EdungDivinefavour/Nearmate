@@ -3,14 +3,15 @@ package ca.unb.mobiledev.nearmate.features.landing
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import ca.unb.mobiledev.nearmate.R
 import ca.unb.mobiledev.nearmate.R.*
-import ca.unb.mobiledev.nearmate.features.home.HomeActivity
 import ca.unb.mobiledev.nearmate.features.login.LoginActivity
+import ca.unb.mobiledev.nearmate.features.register.RegisterActivity
 
 class LandingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +24,14 @@ class LandingActivity : AppCompatActivity() {
             insets
         }
 
-        val goToLogin = findViewById<Button>(R.id.goToLogin)
+        val goToRegister = findViewById<Button>(R.id.getStartedbtn)
+        goToRegister.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
+        // To redirect to the login page from landing
+        val goToLogin = findViewById<TextView>(R.id.have_an_account_tV)
         goToLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
