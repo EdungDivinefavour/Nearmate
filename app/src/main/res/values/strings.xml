@@ -19,4 +19,18 @@
     <string name="chats">Chats</string>
     <string name="profile">Profile</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="friendship_first">Friendship first...</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="enter_your_lastname">Enter your lastname</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="enter_your_firstname">Enter your firstname</string>
+    <string name="last_name">Last Name</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="first_name">First Name</string>
+    <string name="enter_your_email_address">Enter your email address</string>
+    <string name="get_started">Get Started</string>
 </resources>
