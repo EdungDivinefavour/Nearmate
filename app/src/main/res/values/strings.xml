@@ -33,4 +33,7 @@
     <string name="first_name">First Name</string>
     <string name="enter_your_email_address">Enter your email address</string>
     <string name="get_started">Get Started</string>
+    <string name="sendemailaddr">Send</string>
+    <string name="forgotpasswordheader">What\'s your email?</string>
+    <string name="forgotpasswordsubheader">You\'ll receive a temporary link to reset your password withing a few minutes.</string>
 </resources>
