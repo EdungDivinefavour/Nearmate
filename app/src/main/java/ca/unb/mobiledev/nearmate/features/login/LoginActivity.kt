@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import ca.unb.mobiledev.nearmate.R
+import ca.unb.mobiledev.nearmate.features.home.HomeActivity
 import ca.unb.mobiledev.nearmate.services.UserService
 
 class LoginActivity : AppCompatActivity() {
@@ -34,6 +35,10 @@ class LoginActivity : AppCompatActivity() {
                         runOnUiThread {
                             Toast.makeText(this, "Welcome ${user.firstName}", Toast.LENGTH_SHORT).show()
                         }
+
+                        val intent = Intent(this, HomeActivity::class.java)
+                        startActivity(intent)
+
                     } else {
                         runOnUiThread {
                             Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
