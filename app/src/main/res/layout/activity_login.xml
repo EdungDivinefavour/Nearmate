@@ -1,18 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".features.login.LoginActivity">
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/loginButton"
-        android:text="Login">
-    </Button>
+        android:id="@+id/lginbutton"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="@color/primary_color"
+        android:fontFamily="@font/poppins"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.596" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/forgot_password_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="238dp"
+        android:layout_marginEnd="27dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Forgot Password?"
+        android:textColor="@color/primary_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lginbutton"
+        app:layout_constraintVertical_bias="0.037" />
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="291dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Login"
+        android:textColor="@color/black"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.091" />
+
+    <EditText
+        android:id="@+id/passwordLgin_input"
+        android:layout_width="357dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/rounded_corner"
+        android:hint="Enter your password"
+        android:inputType="textPassword"
+        android:paddingLeft="18dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailLgin_input"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/emailLgin_input"
+        android:layout_width="357dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="27dp"
+        android:background="@drawable/rounded_corner"
+        android:hint="Enter your email address"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="18dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.244" />
+
+    <TextView
+        android:id="@+id/passwordlgintv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="304dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Password"
+        android:textColor="@color/primary_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/passwordLgin_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/emaillgintv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="337dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Email"
+        android:textColor="@color/primary_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/emailLgin_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        val goToLogin = findViewById<Button>(R.id.loginButton)
+        val goToLogin = findViewById<Button>(R.id.lginbutton)
 
         goToLogin.setOnClickListener {
             userService.login("divinefavour.edung@gmail.com", "qqqqqqqq")

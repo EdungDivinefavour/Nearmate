@@ -1,11 +1,15 @@
 <resources>
-<!-- Primary brand color -->
-<color name="colorPrimary">#25488E</color>
-<color name="colorPrimaryDark">#1565C0</color>
-<color name="colorPrimaryLight">#64B5F6</color>
 
-<!-- Secondary/Accent color -->
-<color name="colorSecondary">#FF5722</color>
-<color name="colorSecondaryLight">#FF8A50</color>
-<color name="colorSecondaryDark">#E64A19</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#F6FCFF</color>
+
+    <!-- Primary brand color -->
+    <color name="primary_color">#FC011828</color>
+    <color name="colorPrimaryDark">#1565C0</color>
+    <color name="colorPrimaryLight">#64B5F6</color>
+
+    <!-- Secondary/Accent color -->
+    <color name="colorSecondary">#FF5722</color>
+    <color name="colorSecondaryLight">#FF8A50</color>
+    <color name="colorSecondaryDark">#E64A19</color>
 </resources>

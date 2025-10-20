@@ -26,7 +26,7 @@ class PinAnimator {
                 .radius(USER_DOT_RADIUS) // small radius in meters
                 .strokeColor(Color.BLUE)
                 .strokeWidth(2f)
-                .fillColor(R.color.colorPrimary)
+                .fillColor(R.color.primary_color)
         )
 
         // Pulsing light blue circle around the center
