@@ -12,6 +12,11 @@ import ca.unb.mobiledev.nearmate.R
 import ca.unb.mobiledev.nearmate.features.home.HomeActivity
 import ca.unb.mobiledev.nearmate.services.UserService
 
+//added imports
+
+import android.widget.EditText
+
+
 class LoginActivity : AppCompatActivity() {
     val userService: UserService = UserService()
 
@@ -24,23 +29,28 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val emailET    = findViewById<EditText>(R.id.emailLoginInput)
+        val passwordET = findViewById<EditText>(R.id.passwordLoginInput)
+        val loginBtn   = findViewById<Button>(R.id.loginButton)
 
-        val goToLogin = findViewById<Button>(R.id.loginButton)
+        loginBtn.setOnClickListener {
+            val email = emailET.text.toString().trim()
+            val password = passwordET.text.toString()
 
-        goToLogin.setOnClickListener {
-            userService.login("divinefavour.edung@gmail.com", "qqqqqqqq")
+            // not null requirement
+            when {
+                email.isEmpty() -> { emailET.error = "Email required"; return@setOnClickListener }
+                password.isEmpty() -> { passwordET.error = "Password required"; return@setOnClickListener }
+            }
+
+            userService.login(email, password)
                 .thenAccept { user ->
-                    if (user != null) {
-                        // Runs on a background thread by default
-                        runOnUiThread {
+                    runOnUiThread {
+                        if (user != null) {
                             Toast.makeText(this, "Welcome ${user.firstName}", Toast.LENGTH_SHORT).show()
-                        }
-
-                        val intent = Intent(this, HomeActivity::class.java)
-                        startActivity(intent)
-
-                    } else {
-                        runOnUiThread {
+                            startActivity(Intent(this, HomeActivity::class.java))
+                            finish()
+                        } else {
                             Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
                         }
                     }
