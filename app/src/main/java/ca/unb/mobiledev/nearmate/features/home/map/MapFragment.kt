@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import ca.unb.mobiledev.nearmate.R
 import ca.unb.mobiledev.nearmate.models.User
 import ca.unb.mobiledev.nearmate.services.LocationService
 import ca.unb.mobiledev.nearmate.services.UserService
+import ca.unb.mobiledev.nearmate.utils.ImageUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import kotlinx.coroutines.launch
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
@@ -25,6 +24,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val userService = UserService()
     private val markers = mutableMapOf<String, Marker>()
     private val pinAnimator = PinAnimator()
+    private val users = mutableListOf<User>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +43,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.setInfoWindowAdapter(InfoWindowAdapter(requireContext(), users))
 
         locationService.getLocation { location ->
             if (location == null) {
@@ -50,20 +51,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
             else {
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_LEVEL))
-                pinAnimator.startRadarPulse(location, mMap)
+                userService.listenForUsersNearLocation(location.latitude, location.longitude, MAP_FETCH_RADIUS) { nearbyUsers ->
+                    users.clear()
+                    users.addAll(nearbyUsers)
 
-                userService.listenForUsersNearLocation(
-                    location.latitude,
-                    location.longitude,
-                    MAP_FETCH_RADIUS
-                )
-            }
-        }
+                    updateMarkers(users)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            userService.nearbyUsers.collect { users ->
-                updateMarkers(users)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_LEVEL))
+                    pinAnimator.startRadarPulse(location, mMap)
+                }
+
             }
         }
     }
@@ -73,15 +70,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         users.forEach { user ->
             val position = LatLng(user.lat, user.lng)
+            val icon = ImageUtils.getCountryFlagBitmapDescriptor(user.country, requireContext())
+
             if (markers.containsKey(user.id)) {
                 markers[user.id]?.position = position
+                markers[user.id]?.setIcon(icon)
             } else {
                 val marker = mMap.addMarker(
                     MarkerOptions()
                         .position(position)
-                        .title("${user.firstName} ${user.lastName}")
-                        .snippet("${user.country} - ${user.status}")
+                        .icon(icon) // set the flag icon here
                 )
+                marker?.tag = user.id
                 if (marker != null) markers[user.id] = marker
             }
             existingIds.remove(user.id)
@@ -98,6 +98,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         pinAnimator.dispose()
@@ -105,7 +106,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     companion object {
-        private const val ZOOM_LEVEL = 18.5f
+        private const val ZOOM_LEVEL = 16.5f
         private const val MAP_FETCH_RADIUS = 10.0
     }
 }

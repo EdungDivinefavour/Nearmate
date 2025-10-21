@@ -66,7 +66,7 @@ dependencies {
     implementation libs.androidx.viewpager2
     implementation libs.play.services.maps
     implementation libs.glide
-    implementation libs.glide.compiler
+//    implementation libs.glide.compiler
 
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit

@@ -23,7 +23,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="-4dp"
         android:layout_marginEnd="20dp"
-        android:fontFamily="@font/poppins_bold"
+        android:fontFamily="@font/poppins"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
