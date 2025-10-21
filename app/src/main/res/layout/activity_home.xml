@@ -23,7 +23,7 @@
             android:layout_gravity="bottom"
             android:background="@color/white"
             app:menu="@menu/bottom_nav_menu"
-            app:itemIconSize="28dp"
+            app:itemIconSize="32dp"
             app:itemIconTint="@color/bottom_nav_colors"
             app:itemTextColor="@color/bottom_nav_colors"
             app:itemRippleColor="@color/colorPrimaryLight"
