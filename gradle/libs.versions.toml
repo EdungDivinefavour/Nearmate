@@ -16,9 +16,8 @@ firebaseStorage = "22.0.1"
 playServicesLocation = "21.3.0"
 lifecycleLivedataKtx = "2.9.4"
 lifecycleViewmodelKtx = "2.9.4"
-annotation = "1.9.1"
 viewpager2 = "1.1.0"
-playServicesMaps = "18.0.2"
+playServicesMaps = "19.2.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 
 [libraries]

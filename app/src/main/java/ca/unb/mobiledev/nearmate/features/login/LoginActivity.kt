@@ -58,7 +58,6 @@ class LoginActivity : AppCompatActivity() {
                         loginBtn.isEnabled = true
 
                         if (user != null) {
-                            Toast.makeText(this, "Welcome ${user.firstName}", Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this, HomeActivity::class.java))
                             finish()
                         } else {
