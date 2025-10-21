@@ -3,6 +3,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hey James"
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins_bold"
+        android:textSize="24sp"
+        />
+
+    <TextView
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/let_s_find_a_friend_near_you"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userListRecyclerView"
         android:layout_width="match_parent"
