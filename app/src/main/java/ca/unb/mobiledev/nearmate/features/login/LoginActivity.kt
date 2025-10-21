@@ -14,6 +14,8 @@ import ca.unb.mobiledev.nearmate.services.UserService
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.view.View
+import android.widget.TextView
+import ca.unb.mobiledev.nearmate.features.forgotpassword.ForgotPasswordActivity
 
 
 class LoginActivity : AppCompatActivity() {
@@ -29,9 +31,10 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        val emailET    = findViewById<EditText>(R.id.emailLoginInput)
+        val emailET = findViewById<EditText>(R.id.emailLoginInput)
         val passwordET = findViewById<EditText>(R.id.passwordLoginInput)
-        val loginBtn   = findViewById<Button>(R.id.loginButton)
+        val loginBtn = findViewById<Button>(R.id.loginButton)
+        val goToForgotPassword = findViewById<TextView>(R.id.loginForgotPasswordRedirectTV)
         val progressBar = findViewById<ProgressBar>(R.id.loginProgressBar)
 
         loginBtn.setOnClickListener {
@@ -72,6 +75,11 @@ class LoginActivity : AppCompatActivity() {
                     }
                     null
                 }
+        }
+
+        goToForgotPassword.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(intent)
         }
     }
 }
