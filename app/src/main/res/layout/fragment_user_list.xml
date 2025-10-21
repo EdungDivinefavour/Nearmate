@@ -58,10 +58,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="350dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:gravity="center"
-            app:srcCompat="@drawable/nig"
-            android:layout_marginTop="20dp"/>
+            app:srcCompat="@drawable/nig" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -117,10 +117,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="350dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:gravity="center"
-            app:srcCompat="@drawable/india"
-            android:layout_marginTop="20dp"/>
+            app:srcCompat="@drawable/india" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -176,10 +176,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="350dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:gravity="center"
-            app:srcCompat="@drawable/canada"
-            android:layout_marginTop="20dp"/>
+            app:srcCompat="@drawable/canada" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -235,10 +235,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="350dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:gravity="center"
-            app:srcCompat="@drawable/ghana"
-            android:layout_marginTop="20dp"/>
+            app:srcCompat="@drawable/ghana" />
     </RelativeLayout>
 
 </LinearLayout>
