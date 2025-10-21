@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_user_list"
-        android:icon="@drawable/dummy_icon"
-        android:title="@string/users" />
+        android:icon="@drawable/ic__round_home"
+        android:title="@string/home" />
     <item
         android:id="@+id/nav_map"
-        android:icon="@drawable/dummy_icon"
-        android:title="@string/map"/>
+        android:icon="@drawable/gis__poi_map"
+        android:title="@string/map" />
     <item
         android:id="@+id/nav_chat_list"
-        android:icon="@drawable/dummy_icon"
-        android:title="@string/chats"/>
+        android:icon="@drawable/fluent__chat_12_filled"
+        android:title="@string/chats" />
     <item
         android:id="@+id/nav_profile"
-        android:icon="@drawable/dummy_icon"
-        android:title="@string/profile"/>
+        android:icon="@drawable/iconamoon__profile_fill"
+        android:title="@string/profile" />
 </menu>
