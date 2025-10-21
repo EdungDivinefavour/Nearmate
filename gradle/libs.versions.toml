@@ -16,9 +16,8 @@ firebaseStorage = "22.0.1"
 playServicesLocation = "21.3.0"
 lifecycleLivedataKtx = "2.9.4"
 lifecycleViewmodelKtx = "2.9.4"
-annotation = "1.9.1"
 viewpager2 = "1.1.0"
-playServicesMaps = "18.0.2"
+playServicesMaps = "19.2.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 
 [libraries]
@@ -37,7 +36,6 @@ firebase-storage = { group = "com.google.firebase", name = "firebase-storage", v
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
-androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 
 [plugins]

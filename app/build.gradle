@@ -65,6 +65,8 @@ dependencies {
     implementation libs.play.services.location
     implementation libs.androidx.viewpager2
     implementation libs.play.services.maps
+    implementation libs.androidx.lifecycle.livedata.ktx
+    implementation libs.androidx.lifecycle.viewmodel.ktx
 
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
@@ -73,6 +75,7 @@ dependencies {
 
 secrets {
     propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "secrets.defaults.properties"
 
     // Add keys that the plugin should ignore from the properties file
     ignoreList.add("keyToIgnore")
