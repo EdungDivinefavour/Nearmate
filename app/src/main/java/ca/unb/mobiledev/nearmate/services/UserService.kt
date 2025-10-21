@@ -4,6 +4,7 @@ import ca.unb.mobiledev.nearmate.constants.Presence
 import ca.unb.mobiledev.nearmate.constants.Status
 import ca.unb.mobiledev.nearmate.models.User
 import ca.unb.mobiledev.nearmate.utils.DistanceUtils
+import ca.unb.mobiledev.nearmate.utils.getSampleNearbyUsers
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -52,7 +53,7 @@ class UserService : IUserService {
                 }
 
                 _nearbyUsers.value = nearby
-                onUpdate(nearby)
+                onUpdate(getSampleNearbyUsers())
             }
     }
 

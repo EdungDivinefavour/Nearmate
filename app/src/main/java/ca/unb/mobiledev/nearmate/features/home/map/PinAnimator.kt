@@ -63,7 +63,9 @@ class PinAnimator {
     }
 
     companion object {
-        private const val USER_DOT_RADIUS = 4.0
-        private const val USER_DOT_MAX_RADIUS = 40.0
+        private const val ZOOM_FACTOR = 3
+
+        private const val USER_DOT_RADIUS = ZOOM_FACTOR * 4.0
+        private const val USER_DOT_MAX_RADIUS = ZOOM_FACTOR * 40.0
     }
 }
