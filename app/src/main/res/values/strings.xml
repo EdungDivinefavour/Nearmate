@@ -34,4 +34,8 @@
     <string name="Whats_your_email">What\'s your email?</string>
     <string name="forgot_password_subheader">You\'ll receive a temporary link to reset your password withing a few minutes.</string>
     <string name="home">Home</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
