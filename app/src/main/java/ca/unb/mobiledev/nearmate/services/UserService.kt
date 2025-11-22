@@ -1,5 +1,6 @@
 package ca.unb.mobiledev.nearmate.services
 
+import android.net.Uri
 import ca.unb.mobiledev.nearmate.constants.Presence
 import ca.unb.mobiledev.nearmate.constants.Status
 import ca.unb.mobiledev.nearmate.models.User
@@ -8,6 +9,7 @@ import ca.unb.mobiledev.nearmate.utils.getSampleNearbyUsers
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.concurrent.CompletableFuture
@@ -19,6 +21,7 @@ interface IUserService {
     fun login(email: String, password: String): CompletableFuture<User?>
     fun getCurrentUser(): CompletableFuture<User?>
     fun updateProfile(user: User): CompletableFuture<User>
+    fun uploadProfilePhoto(imageUri: Uri): CompletableFuture<String>
     fun sendPasswordResetEmail(email: String): CompletableFuture<Boolean>
     fun logout(): CompletableFuture<Boolean>
 }
@@ -26,6 +29,7 @@ interface IUserService {
 class UserService : IUserService {
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val firebaseFirestore = FirebaseFirestore.getInstance()
+    private val storage = FirebaseStorage.getInstance()
     private var listenerRegistration: ListenerRegistration? = null
 
     private val _nearbyUsers = MutableStateFlow<List<User>>(emptyList())
@@ -168,6 +172,35 @@ class UserService : IUserService {
             .set(user.toMap())
             .addOnSuccessListener { future.complete(user) }
             .addOnFailureListener { e -> future.completeExceptionally(e) }
+
+        return future
+    }
+
+    override fun uploadProfilePhoto(imageUri: Uri): CompletableFuture<String> {
+        val future = CompletableFuture<String>()
+        val currentUser = firebaseAuth.currentUser
+        
+        if (currentUser == null) {
+            future.completeExceptionally(IllegalStateException("User not logged in"))
+            return future
+        }
+
+        val storageRef = storage.reference
+        val profilePhotoRef = storageRef.child("profile_photos/${currentUser.uid}.jpg")
+
+        profilePhotoRef.putFile(imageUri)
+            .addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.metadata?.reference?.downloadUrl
+                    ?.addOnSuccessListener { uri ->
+                        future.complete(uri.toString())
+                    }
+                    ?.addOnFailureListener { e ->
+                        future.completeExceptionally(e)
+                    }
+            }
+            .addOnFailureListener { e ->
+                future.completeExceptionally(e)
+            }
 
         return future
     }

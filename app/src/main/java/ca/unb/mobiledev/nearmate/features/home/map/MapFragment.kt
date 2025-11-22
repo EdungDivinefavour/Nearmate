@@ -43,7 +43,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.setInfoWindowAdapter(InfoWindowAdapter(requireContext(), users))
+        val context = context ?: return
+        mMap.setInfoWindowAdapter(InfoWindowAdapter(context, users))
 
         locationService.getLocation { location ->
             if (location == null) {
@@ -52,13 +53,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
             else {
                 userService.listenForUsersNearLocation(location.latitude, location.longitude, MAP_FETCH_RADIUS) { nearbyUsers ->
+                    if (!isAdded || context == null) return@listenForUsersNearLocation
+                    
                     users.clear()
                     users.addAll(nearbyUsers)
 
                     updateMarkers(users)
 
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_LEVEL))
-                    pinAnimator.startRadarPulse(location, mMap)
+                    if (isAdded && ::mMap.isInitialized) {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_LEVEL))
+                        pinAnimator.startRadarPulse(location, mMap)
+                    }
                 }
 
             }
@@ -66,11 +71,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun updateMarkers(users: List<User>) {
+        val context = context ?: return // Check if fragment is attached
+        if (!isAdded) return // Double check fragment is attached
+        
         val existingIds = markers.keys.toMutableSet()
 
         users.forEach { user ->
             val position = LatLng(user.lat, user.lng)
-            val icon = ImageUtils.getCountryFlagBitmapDescriptor(user.country, requireContext())
+            val icon = ImageUtils.getCountryFlagBitmapDescriptor(user.country, context)
 
             if (markers.containsKey(user.id)) {
                 markers[user.id]?.position = position
