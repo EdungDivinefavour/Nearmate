@@ -17,6 +17,7 @@ interface IUserService {
     fun stopListening()
     fun register(firstName: String, lastName: String, email: String, password: String, lat: Double, lng: Double): CompletableFuture<User?>
     fun login(email: String, password: String): CompletableFuture<User?>
+    fun getCurrentUser(): CompletableFuture<User?>
     fun updateProfile(user: User): CompletableFuture<User>
     fun sendPasswordResetEmail(email: String): CompletableFuture<Boolean>
     fun logout(): CompletableFuture<Boolean>
@@ -135,12 +136,36 @@ class UserService : IUserService {
         return future
     }
 
+    override fun getCurrentUser(): CompletableFuture<User?> {
+        val future = CompletableFuture<User?>()
+        val currentUser = firebaseAuth.currentUser
+        
+        if (currentUser == null) {
+            future.complete(null)
+            return future
+        }
+
+        firebaseFirestore.collection("users")
+            .document(currentUser.uid)
+            .get()
+            .addOnSuccessListener { doc ->
+                val map = doc.data
+                val user = if (map != null) User.fromMap(map) else null
+                future.complete(user)
+            }
+            .addOnFailureListener { e ->
+                future.completeExceptionally(e)
+            }
+
+        return future
+    }
+
     override fun updateProfile(user: User): CompletableFuture<User> {
         val future = CompletableFuture<User>()
 
         firebaseFirestore.collection("users")
             .document(firebaseAuth.currentUser!!.uid)
-            .set(user)
+            .set(user.toMap())
             .addOnSuccessListener { future.complete(user) }
             .addOnFailureListener { e -> future.completeExceptionally(e) }
 

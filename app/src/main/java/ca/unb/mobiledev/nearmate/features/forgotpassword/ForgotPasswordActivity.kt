@@ -1,16 +1,17 @@
 package ca.unb.mobiledev.nearmate.features.forgotpassword
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import ca.unb.mobiledev.nearmate.R
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
 import ca.unb.mobiledev.nearmate.services.UserService
 
 class ForgotPasswordActivity : AppCompatActivity() {
@@ -26,7 +27,14 @@ class ForgotPasswordActivity : AppCompatActivity() {
             insets
         }
 
-        val emailET = findViewById<EditText>(R.id.forgotPasswordEmailInput)
+        val emailInputField = findViewById<View>(R.id.emailInputField)
+        val emailET = emailInputField.findViewById<EditText>(R.id.inputEditText)
+        
+        // Hide label for forgot password (we have "What's your email?" text instead)
+        emailInputField.findViewById<TextView>(R.id.inputLabel).visibility = View.GONE
+        emailET.hint = getString(R.string.enter_your_email_address)
+        emailET.inputType = android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        
         val sendBtn = findViewById<Button>(R.id.sendButton)
         val progressBar = findViewById<ProgressBar>(R.id.forgotProgressBar)
 

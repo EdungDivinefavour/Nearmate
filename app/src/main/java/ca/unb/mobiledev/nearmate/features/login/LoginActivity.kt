@@ -2,20 +2,20 @@ package ca.unb.mobiledev.nearmate.features.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import ca.unb.mobiledev.nearmate.R
+import ca.unb.mobiledev.nearmate.features.forgotpassword.ForgotPasswordActivity
 import ca.unb.mobiledev.nearmate.features.home.HomeActivity
 import ca.unb.mobiledev.nearmate.services.UserService
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.view.View
-import android.widget.TextView
-import ca.unb.mobiledev.nearmate.features.forgotpassword.ForgotPasswordActivity
 
 
 class LoginActivity : AppCompatActivity() {
@@ -31,8 +31,20 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        val emailET = findViewById<EditText>(R.id.emailLoginInput)
-        val passwordET = findViewById<EditText>(R.id.passwordLoginInput)
+        val emailInputField = findViewById<View>(R.id.emailInputField)
+        val passwordInputField = findViewById<View>(R.id.passwordInputField)
+        val emailET = emailInputField.findViewById<EditText>(R.id.inputEditText)
+        val passwordET = passwordInputField.findViewById<EditText>(R.id.inputEditText)
+        
+        // Set label and hint for email field
+        emailInputField.findViewById<TextView>(R.id.inputLabel).text = getString(R.string.email)
+        emailET.hint = getString(R.string.enter_your_email_address)
+        emailET.inputType = android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        
+        // Set label and hint for password field
+        passwordInputField.findViewById<TextView>(R.id.inputLabel).text = getString(R.string.password)
+        passwordET.hint = getString(R.string.enter_your_password)
+        passwordET.inputType = android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD or android.text.InputType.TYPE_CLASS_TEXT
         val loginBtn = findViewById<Button>(R.id.loginButton)
         val goToForgotPassword = findViewById<TextView>(R.id.loginForgotPasswordRedirectTV)
         val progressBar = findViewById<ProgressBar>(R.id.loginProgressBar)

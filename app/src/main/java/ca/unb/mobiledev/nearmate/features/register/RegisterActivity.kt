@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,7 +13,6 @@ import ca.unb.mobiledev.nearmate.R
 import ca.unb.mobiledev.nearmate.features.login.LoginActivity
 
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import ca.unb.mobiledev.nearmate.services.UserService
@@ -31,10 +31,33 @@ class RegisterActivity : AppCompatActivity() {
             insets
         }
 
-        val firstNameET = findViewById<EditText>(R.id.firstNameInput)
-        val lastNameET = findViewById<EditText>(R.id.lastNameInput)
-        val emailET = findViewById<EditText>(R.id.emailInput)
-        val passwordET = findViewById<EditText>(R.id.passwordInput)
+        val firstNameInputField = findViewById<View>(R.id.firstNameInputField)
+        val lastNameInputField = findViewById<View>(R.id.lastNameInputField)
+        val emailInputField = findViewById<View>(R.id.emailInputField)
+        val passwordInputField = findViewById<View>(R.id.passwordInputField)
+        
+        val firstNameET = firstNameInputField.findViewById<EditText>(R.id.inputEditText)
+        val lastNameET = lastNameInputField.findViewById<EditText>(R.id.inputEditText)
+        val emailET = emailInputField.findViewById<EditText>(R.id.inputEditText)
+        val passwordET = passwordInputField.findViewById<EditText>(R.id.inputEditText)
+        
+        // Set labels and hints
+        firstNameInputField.findViewById<TextView>(R.id.inputLabel).text = getString(R.string.first_name)
+        firstNameET.hint = getString(R.string.enter_your_firstname)
+        firstNameET.inputType = android.text.InputType.TYPE_CLASS_TEXT
+
+        lastNameInputField.findViewById<TextView>(R.id.inputLabel).text = getString(R.string.last_name)
+        lastNameET.hint = getString(R.string.enter_your_lastname)
+        lastNameET.inputType = android.text.InputType.TYPE_CLASS_TEXT
+        
+        emailInputField.findViewById<TextView>(R.id.inputLabel).text = getString(R.string.email)
+        emailET.hint = getString(R.string.enter_your_email_address)
+        emailET.inputType = android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        
+        passwordInputField.findViewById<TextView>(R.id.inputLabel).text = getString(R.string.password)
+        passwordET.hint = getString(R.string.enter_your_password)
+        passwordET.inputType = android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD or android.text.InputType.TYPE_CLASS_TEXT
+        
         val registerBtn = findViewById<Button>(R.id.registerButton)
         val progressBar = findViewById<ProgressBar>(R.id.registerProgressBar)
 
