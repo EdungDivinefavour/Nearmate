@@ -2,27 +2,41 @@
     android:orientation="vertical"
     android:padding="12dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/chat_room_item_border">
 
-    <TextView
-        android:id="@+id/txtUserName"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/txtUserName"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:textSize="12sp"
+            android:textColor="#777"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/poppins" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/txtLastMessage"
         android:textSize="14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp" />
-
-    <TextView
-        android:id="@+id/txtTime"
-        android:textSize="12sp"
-        android:textColor="#777"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp" />
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/poppins"
+        android:textColor="@color/black" />
 </LinearLayout>

@@ -22,6 +22,7 @@ interface IChatService {
         onError: (Exception) -> Unit
     ): ListenerRegistration
     fun getChatId(userId1: String, userId2: String): String
+    fun chatExists(userId1: String, userId2: String): CompletableFuture<Boolean>
 }
 
 class ChatService : IChatService {
@@ -42,20 +43,32 @@ class ChatService : IChatService {
         val chatRef = firestore.collection("chats").document(chatId)
         val messageRef = chatRef.collection("messages").document()
 
+        val timestamp = System.currentTimeMillis()
         val message = ChatMessage(
             id = messageRef.id,
             chatId = chatId,
             senderId = senderId,
             receiverId = receiverId,
             text = messageText,
-            timestamp = System.currentTimeMillis()
+            timestamp = timestamp
         )
 
-        val chatData = mapOf("participants" to listOf(senderId, receiverId))
+        // Ensure participants are stored as strings
+        val participants = listOf(senderId, receiverId)
+        val chatData = mapOf(
+            "participants" to participants,
+            "lastMessage" to messageText,
+            "lastMessageTimestamp" to timestamp
+        )
+        
+        // Update or create chat document with last message info
         chatRef.set(chatData, SetOptions.merge())
-
-        messageRef.set(message.toMap())
-            .addOnSuccessListener { future.complete(message) }
+            .addOnSuccessListener {
+                // After chat document is updated, save the message
+                messageRef.set(message.toMap())
+                    .addOnSuccessListener { future.complete(message) }
+                    .addOnFailureListener { e -> future.completeExceptionally(e) }
+            }
             .addOnFailureListener { e -> future.completeExceptionally(e) }
 
         return future
@@ -112,40 +125,45 @@ class ChatService : IChatService {
                 for (chatDoc in chatSnapshots.documents) {
                     val chatId = chatDoc.id
                     val participants = chatDoc.get("participants") as? List<*> ?: continue
-                    val otherUserId = participants.firstOrNull { it != userId } ?: continue
+                    // Convert all participants to strings and find the other user
+                    val participantStrings = participants.mapNotNull { it?.toString() }
+                    val otherUserId = participantStrings.firstOrNull { it != userId } ?: continue
 
-                    firestore.collection("chats")
-                        .document(chatId)
-                        .collection("messages")
-                        .orderBy("timestamp", Query.Direction.DESCENDING)
-                        .limit(1)
-                        .get()
-                        .addOnSuccessListener { msgSnapshot ->
-                            val lastDoc = msgSnapshot.documents.firstOrNull()
-                            val lastMessage = lastDoc?.getString("text") ?: ""
-                            val timestamp = (lastDoc?.get("timestamp") as? Number)?.toLong() ?: 0L
+                    // Read last message info directly from chat document
+                    val lastMessage = chatDoc.getString("lastMessage") ?: ""
+                    val lastMessageTimestamp = (chatDoc.get("lastMessageTimestamp") as? Number)?.toLong() ?: 0L
 
-                            chatRooms.add(
-                                ChatRoom(
-                                    chatId = chatId,
-                                    otherUserId = otherUserId as String,
-                                    lastMessage = lastMessage,
-                                    lastMessageTimestamp = timestamp
-                                )
-                            )
-
-                            processed++
-                            if (processed == pending) {
-                                onChatRoomsUpdated(chatRooms.sortedByDescending { it.lastMessageTimestamp })
-                            }
-                        }
-                        .addOnFailureListener {
-                            processed++
-                            if (processed == pending) {
-                                onChatRoomsUpdated(chatRooms)
-                            }
-                        }
+                    chatRooms.add(
+                        ChatRoom(
+                            chatId = chatId,
+                            otherUserId = otherUserId as String,
+                            lastMessage = lastMessage,
+                            lastMessageTimestamp = lastMessageTimestamp
+                        )
+                    )
                 }
+                
+                // Sort by timestamp and notify
+                onChatRoomsUpdated(chatRooms.sortedByDescending { it.lastMessageTimestamp })
             }
+    }
+
+    override fun chatExists(userId1: String, userId2: String): CompletableFuture<Boolean> {
+        val future = CompletableFuture<Boolean>()
+        val chatId = getChatId(userId1, userId2)
+        val chatRef = firestore.collection("chats").document(chatId)
+        
+        // Check if chat document exists and has messages
+        chatRef.collection("messages")
+            .limit(1)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                future.complete(!snapshot.isEmpty)
+            }
+            .addOnFailureListener { e ->
+                future.complete(false)
+            }
+        
+        return future
     }
 }

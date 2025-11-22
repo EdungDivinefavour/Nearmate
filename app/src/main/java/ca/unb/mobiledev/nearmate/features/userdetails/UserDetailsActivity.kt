@@ -45,6 +45,13 @@ class UserDetailsActivity : AppCompatActivity() {
 
         setupStartChatButton()
         displayUserDetails(user)
+        checkChatExists()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh button text when returning from chat
+        checkChatExists()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -59,7 +66,17 @@ class UserDetailsActivity : AppCompatActivity() {
             val intent = Intent(this, ChatRoomActivity::class.java)
             intent.putExtra("chatId", chatId)
             intent.putExtra("otherUserId", user.id)
+            intent.putExtra("otherUser", user)
             startActivity(intent)
+        }
+    }
+
+    private fun checkChatExists() {
+        val startChatButton: Button = findViewById(R.id.startChatButton)
+        chatService.chatExists(currentUserId, user.id).thenAccept { exists ->
+            runOnUiThread {
+                startChatButton.text = if (exists) "Message Again" else "Start Chat"
+            }
         }
     }
 

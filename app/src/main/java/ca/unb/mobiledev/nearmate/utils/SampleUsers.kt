@@ -8,7 +8,7 @@ import ca.unb.mobiledev.nearmate.models.User
 fun getSampleNearbyUsers(): List<User> {
     return listOf(
         User(
-            id = "1",
+            id = "7EZd6g5c7SYfGobwyJ9KH2wLEUY2",
             firstName = "Alice",
             lastName = "Johnson",
             userName = "alicej",
@@ -22,7 +22,7 @@ fun getSampleNearbyUsers(): List<User> {
             lng = -122.081
         ),
         User(
-            id = "2",
+            id = "0rQcUaHtL8haUulKfloO9i0UOA42",
             firstName = "Bob",
             lastName = "Smith",
             userName = null,
