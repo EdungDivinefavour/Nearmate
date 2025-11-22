@@ -1,13 +1,16 @@
 package ca.unb.mobiledev.nearmate.features.home.map
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import ca.unb.mobiledev.nearmate.R
+import ca.unb.mobiledev.nearmate.features.userdetails.UserDetailsActivity
 import ca.unb.mobiledev.nearmate.models.User
 import ca.unb.mobiledev.nearmate.utils.ImageUtils
 import com.bumptech.glide.Glide
@@ -27,10 +30,11 @@ class InfoWindowAdapter(
         val statusText = view.findViewById<TextView>(R.id.user_status)
         val profileImage = view.findViewById<ImageView>(R.id.user_profile_image)
         val countryFlag = view.findViewById<ImageView>(R.id.user_country_flag)
+        val viewProfileButton = view.findViewById<Button>(R.id.viewProfileButton)
 
         user?.let {
             nameText.text = if (it.prefersToShowUserName && !it.userName.isNullOrEmpty()) it.userName else "${it.firstName} ${it.lastName}"
-            countryText.text = it.country?.name ?: "Unknown"
+            countryText.text = it.country?.value ?: "Unknown"
             statusText.text = it.status.value
 
             countryFlag.setImageBitmap(ImageUtils.getCountryBitmap(user.country, context))
@@ -44,6 +48,9 @@ class InfoWindowAdapter(
             } else {
                 profileImage.setImageResource(R.drawable.baseline_account_circle_24)
             }
+
+            // Store user in button tag for click handling
+            viewProfileButton.tag = it
         }
 
         return view

@@ -1,5 +1,6 @@
 package ca.unb.mobiledev.nearmate.features.home.users
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ca.unb.mobiledev.nearmate.R
+import ca.unb.mobiledev.nearmate.features.userdetails.UserDetailsActivity
 import ca.unb.mobiledev.nearmate.models.User
 import com.bumptech.glide.Glide
 
@@ -24,6 +26,11 @@ class UserListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(users[position])
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, UserDetailsActivity::class.java)
+            intent.putExtra("user", users[position])
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -55,6 +55,10 @@
             android:name=".features.chatroom.ChatRoomActivity"
             android:exported="false" />
         <activity
+            android:name=".features.userdetails.UserDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Nearmate.WithActionBar" />
+        <activity
             android:name=".features.home.HomeActivity"
             android:exported="false"
             android:label="@string/title_activity_home"

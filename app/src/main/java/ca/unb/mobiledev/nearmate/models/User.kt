@@ -1,9 +1,12 @@
 package ca.unb.mobiledev.nearmate.models
 
+import android.os.Parcelable
 import ca.unb.mobiledev.nearmate.constants.Country
 import ca.unb.mobiledev.nearmate.constants.Presence
 import ca.unb.mobiledev.nearmate.constants.Status
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class User (
     val id: String,
     val firstName: String,
@@ -17,7 +20,7 @@ data class User (
     val profilePhoto: String?,
     val lat: Double,
     val lng: Double
-) {
+) : Parcelable {
     fun toMap(): Map<String, Any?> {
         return mapOf(
             "id" to id,

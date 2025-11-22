@@ -45,6 +45,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mMap = googleMap
         val context = context ?: return
         mMap.setInfoWindowAdapter(InfoWindowAdapter(context, users))
+        
+        mMap.setOnInfoWindowClickListener { marker ->
+            // This handles clicks on the info window (including the button area)
+            // The button is just visual - clicking anywhere on the info window opens the profile
+            val userId = marker.tag as? String
+            val user = users.find { it.id == userId }
+            user?.let {
+                val intent = android.content.Intent(context, ca.unb.mobiledev.nearmate.features.userdetails.UserDetailsActivity::class.java)
+                intent.putExtra("user", it)
+                context.startActivity(intent)
+            }
+        }
 
         locationService.getLocation { location ->
             if (location == null) {

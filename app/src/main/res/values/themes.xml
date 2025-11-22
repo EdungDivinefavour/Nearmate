@@ -12,6 +12,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.Nearmate.WithActionBar" parent="Theme.AppCompat.Light">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+        <item name="elevation">0dp</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
     <style name="Theme.Nearmate.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Nearmate.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
