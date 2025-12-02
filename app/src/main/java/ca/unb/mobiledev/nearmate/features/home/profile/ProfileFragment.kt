@@ -19,8 +19,8 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Spinner
-import android.widget.Switch
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -43,7 +43,7 @@ class ProfileFragment : Fragment() {
     private lateinit var usernameInput: EditText
     private lateinit var preferUsernameCheckbox: CheckBox
     private lateinit var statusSpinner: Spinner
-    private lateinit var presenceToggle: Switch
+    private lateinit var presenceToggle: SwitchCompat
     private lateinit var presenceToggleLabel: TextView
     private lateinit var saveButton: Button
     private lateinit var logoutButton: Button

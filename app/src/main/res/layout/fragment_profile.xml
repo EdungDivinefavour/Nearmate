@@ -157,8 +157,9 @@
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/poppins"
                 android:text="@string/prefer_to_show_username"
-                android:textColor="@color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
+                android:theme="@style/MyCheckboxStyle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/usernameInput" />
 
@@ -225,14 +226,13 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/presenceToggle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:thumbTint="@color/switch_thumb_color"
-                    android:trackTint="@color/switch_track_color"
-                    app:trackTint="@color/switch_track_color"
-                    app:thumbTint="@color/switch_thumb_color" />
+                    android:splitTrack="false"
+                    app:thumbTint="@color/switch_thumb_color"
+                    app:trackTint="@color/switch_track_color" />
 
             </LinearLayout>
 
