@@ -23,4 +23,9 @@
     <style name="Theme.Nearmate.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Nearmate.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MyCheckboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <!-- Checked color (will use your primary color) -->
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 </resources>

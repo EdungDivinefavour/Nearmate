@@ -179,6 +179,7 @@ class UserService : IUserService {
             .addOnSuccessListener { doc ->
                 val map = doc.data
                 val user = if (map != null) User.fromMap(map) else null
+
                 future.complete(user)
             }
             .addOnFailureListener { e ->

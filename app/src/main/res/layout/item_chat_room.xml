@@ -19,16 +19,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/poppins_bold"
-            android:textColor="@color/black" />
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/txtTime"
-            android:textSize="12sp"
-            android:textColor="#777"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:fontFamily="@font/poppins" />
+            android:fontFamily="@font/poppins"
+            android:textColor="#777"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <TextView
@@ -38,5 +38,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/poppins"
-        android:textColor="@color/black" />
+        android:textColor="@color/colorPrimary" />
 </LinearLayout>
