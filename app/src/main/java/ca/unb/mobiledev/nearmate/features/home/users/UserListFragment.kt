@@ -51,6 +51,6 @@ class UserListFragment : Fragment() {
     }
 
     companion object {
-        private const val FETCH_RADIUS = 10.0
+        private const val FETCH_RADIUS = 50.0
     }
 }

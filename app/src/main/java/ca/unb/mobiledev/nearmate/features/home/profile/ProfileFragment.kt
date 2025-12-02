@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import ca.unb.mobiledev.nearmate.R
+import ca.unb.mobiledev.nearmate.constants.Country
 import ca.unb.mobiledev.nearmate.constants.Presence
 import ca.unb.mobiledev.nearmate.constants.Status
 import ca.unb.mobiledev.nearmate.features.landing.LandingActivity
@@ -42,6 +43,7 @@ class ProfileFragment : Fragment() {
     private lateinit var lastNameInput: EditText
     private lateinit var usernameInput: EditText
     private lateinit var preferUsernameCheckbox: CheckBox
+    private lateinit var countrySpinner: Spinner
     private lateinit var statusSpinner: Spinner
     private lateinit var presenceToggle: SwitchCompat
     private lateinit var presenceToggleLabel: TextView
@@ -92,6 +94,7 @@ class ProfileFragment : Fragment() {
         lastNameInput = view.findViewById(R.id.lastNameInput)
         usernameInput = view.findViewById(R.id.usernameInput)
         preferUsernameCheckbox = view.findViewById(R.id.preferUsernameCheckbox)
+        countrySpinner = view.findViewById(R.id.countrySpinner)
         statusSpinner = view.findViewById(R.id.statusSpinner)
         presenceToggle = view.findViewById(R.id.presenceToggle)
         presenceToggleLabel = view.findViewById(R.id.presenceToggleLabel)
@@ -104,6 +107,7 @@ class ProfileFragment : Fragment() {
         logoutButton = view.findViewById(R.id.logoutButton)
         saveProgressBar = view.findViewById(R.id.saveProgressBar)
 
+        setupCountrySpinner()
         setupStatusSpinner()
         loadUserProfile()
 
@@ -118,6 +122,20 @@ class ProfileFragment : Fragment() {
         editPhotoButton.setOnClickListener {
             showImageSourceDialog()
         }
+    }
+
+    private fun setupCountrySpinner() {
+        // Only allow these 4 countries
+        val allowedCountries = listOf(
+            Country.NIGERIA,
+            Country.CANADA,
+            Country.GHANA,
+            Country.INDIA
+        )
+        val countryNames = allowedCountries.map { it.value }
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, countryNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        countrySpinner.adapter = adapter
     }
 
     private fun setupStatusSpinner() {
@@ -150,6 +168,13 @@ class ProfileFragment : Fragment() {
         lastNameInput.setText(user.lastName)
         usernameInput.setText(user.userName ?: "")
         preferUsernameCheckbox.isChecked = user.prefersToShowUserName
+
+        // Set country spinner
+        val allowedCountries = listOf(Country.NIGERIA, Country.CANADA, Country.GHANA, Country.INDIA)
+        val countryIndex = allowedCountries.indexOfFirst { it == user.country }
+        if (countryIndex >= 0) {
+            countrySpinner.setSelection(countryIndex)
+        }
 
         // Set status spinner
         val statusIndex = Status.values().indexOfFirst { it == user.status }
@@ -184,6 +209,8 @@ class ProfileFragment : Fragment() {
         val lastName = lastNameInput.text.toString().trim()
         val username = usernameInput.text.toString().trim()
         val prefersUsername = preferUsernameCheckbox.isChecked
+        val allowedCountries = listOf(Country.NIGERIA, Country.CANADA, Country.GHANA, Country.INDIA)
+        val selectedCountry = allowedCountries[countrySpinner.selectedItemPosition]
         val selectedStatus = Status.values()[statusSpinner.selectedItemPosition]
         val presence = if (presenceToggle.isChecked) Presence.ONLINE else Presence.OFFLINE
 
@@ -202,6 +229,7 @@ class ProfileFragment : Fragment() {
             lastName = lastName,
             userName = if (username.isNotEmpty()) username else null,
             prefersToShowUserName = prefersUsername,
+            country = selectedCountry,
             status = selectedStatus,
             presence = presence
         )

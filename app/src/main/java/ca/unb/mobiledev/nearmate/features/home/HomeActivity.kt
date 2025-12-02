@@ -5,14 +5,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import ca.unb.mobiledev.nearmate.R
 import ca.unb.mobiledev.nearmate.services.LocationService
+import ca.unb.mobiledev.nearmate.services.UserService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity() {
+    private lateinit var locationService: LocationService
+    private val userService = UserService()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        LocationService(this).requestLocationPermission()
+        locationService = LocationService(this)
+        locationService.requestLocationPermission()
+
+        locationService.startLocationUpdates { lat, lng ->
+            userService.updateLocation(lat, lng)
+                .exceptionally { e ->
+                    // Silently log/ignore location update failures
+                    null
+                }
+        }
 
         val viewPager = findViewById<ViewPager2>(R.id.view_pager)
         viewPager.adapter = ViewPagerAdapter(this)
@@ -31,5 +44,10 @@ class HomeActivity : AppCompatActivity() {
             viewPager.currentItem = index
             true
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        locationService.stopLocationUpdates()
     }
 }

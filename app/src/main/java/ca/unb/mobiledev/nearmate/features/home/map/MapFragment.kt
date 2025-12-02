@@ -127,6 +127,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     companion object {
         private const val ZOOM_LEVEL = 16.5f
-        private const val MAP_FETCH_RADIUS = 10.0
+        private const val MAP_FETCH_RADIUS = 50.0
     }
 }

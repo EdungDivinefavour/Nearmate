@@ -56,6 +56,7 @@ class UserListAdapter(
                 profilePic.setImageResource(R.drawable.baseline_account_circle_24)
             }
 
+            // Only bothering about these 4 most popular countries to save us time
             val flagResId = when (user.country?.value?.lowercase()) {
                 "nigeria" -> R.drawable.nigeria
                 "canada" -> R.drawable.canada

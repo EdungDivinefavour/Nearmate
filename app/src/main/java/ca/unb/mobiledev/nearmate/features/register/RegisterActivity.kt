@@ -15,11 +15,13 @@ import ca.unb.mobiledev.nearmate.features.login.LoginActivity
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import ca.unb.mobiledev.nearmate.services.LocationService
 import ca.unb.mobiledev.nearmate.services.UserService
 import ca.unb.mobiledev.nearmate.features.home.HomeActivity
 
 class RegisterActivity : AppCompatActivity() {
-    val userService: UserService = UserService()
+    private val userService: UserService = UserService()
+    private lateinit var locationService: LocationService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,9 @@ class RegisterActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        locationService = LocationService(this)
+        locationService.requestLocationPermission()
 
         val firstNameInputField = findViewById<View>(R.id.firstNameInputField)
         val lastNameInputField = findViewById<View>(R.id.lastNameInputField)
@@ -74,12 +79,13 @@ class RegisterActivity : AppCompatActivity() {
                 password.length < 8 -> {  passwordET.error = "Annoyingly, you need 8 characters here"; return@setOnClickListener }
             }
 
-            val lat = 0.0
-            val lng = 0.0
-
             registerBtn.text = ""
             registerBtn.isEnabled = false
             progressBar.visibility = View.VISIBLE
+
+            locationService.getLocation { latLng ->
+                val lat = latLng?.latitude ?: 0.0
+                val lng = latLng?.longitude ?: 0.0
 
             userService.register(firstName, lastName, email, password, lat, lng)
                 .thenAccept { user ->
@@ -105,6 +111,7 @@ class RegisterActivity : AppCompatActivity() {
                         }
                         null
                 }
+            }
         }
         val goToLogin = findViewById<TextView>(R.id.registerLoginRedirectTV)
         goToLogin.setOnClickListener {

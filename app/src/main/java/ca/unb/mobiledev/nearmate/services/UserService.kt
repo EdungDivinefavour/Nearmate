@@ -5,7 +5,6 @@ import ca.unb.mobiledev.nearmate.constants.Presence
 import ca.unb.mobiledev.nearmate.constants.Status
 import ca.unb.mobiledev.nearmate.models.User
 import ca.unb.mobiledev.nearmate.utils.DistanceUtils
-import ca.unb.mobiledev.nearmate.utils.getSampleNearbyUsers
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -22,6 +21,7 @@ interface IUserService {
     fun getCurrentUser(): CompletableFuture<User?>
     fun getUserById(userId: String): CompletableFuture<User?>
     fun updateProfile(user: User): CompletableFuture<User>
+    fun updateLocation(lat: Double, lng: Double): CompletableFuture<Boolean>
     fun uploadProfilePhoto(imageUri: Uri): CompletableFuture<String>
     fun sendPasswordResetEmail(email: String): CompletableFuture<Boolean>
     fun logout(): CompletableFuture<Boolean>
@@ -34,32 +34,36 @@ class UserService : IUserService {
     private var listenerRegistration: ListenerRegistration? = null
 
     private val _nearbyUsers = MutableStateFlow<List<User>>(emptyList())
-    val nearbyUsers: StateFlow<List<User>> get() = _nearbyUsers
 
     override fun listenForUsersNearLocation(lat: Double, lng: Double, radius: Double, onUpdate: (List<User>) -> Unit) {
         val minLat = lat - DistanceUtils.latDelta(radius)
         val maxLat = lat + DistanceUtils.latDelta(radius)
-        val minLng = lng - DistanceUtils.lngDelta(lng, radius)
-        val maxLng = lng + DistanceUtils.lngDelta(lng, radius)
+        val minLng = lng - DistanceUtils.lngDelta(lat, radius)
+        val maxLng = lng + DistanceUtils.lngDelta(lat, radius)
 
         listenerRegistration?.remove()
         listenerRegistration = firebaseFirestore.collection("users")
             .whereGreaterThanOrEqualTo("lat", minLat)
             .whereLessThanOrEqualTo("lat", maxLat)
-            .whereGreaterThanOrEqualTo("lng", minLng)
-            .whereLessThanOrEqualTo("lng", maxLng)
             .addSnapshotListener { snapshot, error ->
                 if (error != null || snapshot == null) return@addSnapshotListener
 
                 val nearby = snapshot.documents.mapNotNull { doc ->
                     val map = doc.data ?: return@mapNotNull null
                     val user = User.fromMap(map)
+                    
+                    // Don't include the current user
+                    if (user.id == firebaseAuth.currentUser?.uid) return@mapNotNull null
+                    
+                    // Filter by longitude bounds
+                    if (user.lng !in minLng..maxLng) return@mapNotNull null
+                    
                     val distance = DistanceUtils.haversineDistance(lat, lng, user.lat, user.lng)
                     if (distance <= radius) user else null
                 }
 
                 _nearbyUsers.value = nearby
-                onUpdate(getSampleNearbyUsers())
+                onUpdate(nearby)
             }
     }
 
@@ -197,6 +201,31 @@ class UserService : IUserService {
             .set(user.toMap())
             .addOnSuccessListener { future.complete(user) }
             .addOnFailureListener { e -> future.completeExceptionally(e) }
+
+        return future
+    }
+
+    override fun updateLocation(lat: Double, lng: Double): CompletableFuture<Boolean> {
+        val future = CompletableFuture<Boolean>()
+        val currentUser = firebaseAuth.currentUser
+
+        if (currentUser == null) {
+            future.complete(false)
+            return future
+        }
+
+        val locationData = hashMapOf(
+            "lat" to lat,
+            "lng" to lng
+        )
+
+        firebaseFirestore.collection("users")
+            .document(currentUser.uid)
+            .update(locationData as Map<String, Any>)
+            .addOnSuccessListener { future.complete(true) }
+            .addOnFailureListener { e -> 
+                future.completeExceptionally(e)
+            }
 
         return future
     }

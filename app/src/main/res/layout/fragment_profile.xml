@@ -164,6 +164,33 @@
                 app:layout_constraintTop_toBottomOf="@+id/usernameInput" />
 
             <TextView
+                android:id="@+id/countryTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="27dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/country"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/preferUsernameCheckbox" />
+
+            <Spinner
+                android:id="@+id/countrySpinner"
+                android:layout_width="357dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="27dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="27dp"
+                android:background="@drawable/spinner_background"
+                android:paddingLeft="18dp"
+                android:paddingRight="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/countryTv" />
+
+            <TextView
                 android:id="@+id/statusTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -174,7 +201,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/preferUsernameCheckbox" />
+                app:layout_constraintTop_toBottomOf="@+id/countrySpinner" />
 
             <Spinner
                 android:id="@+id/statusSpinner"
