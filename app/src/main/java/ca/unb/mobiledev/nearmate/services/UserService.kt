@@ -173,25 +173,17 @@ class UserService : IUserService {
             return future
         }
 
-        val fallbackUser = {
-            getSampleNearbyUsers().firstOrNull { it.id == userId }
-        }
-
         firebaseFirestore.collection("users")
             .document(userId)
             .get()
             .addOnSuccessListener { doc ->
                 val map = doc.data
-                val user = if (map != null) {
-                    User.fromMap(map)
-                } else {
-                    fallbackUser()
-                }
+                val user = if (map != null) User.fromMap(map) else null
+
                 future.complete(user)
             }
-            .addOnFailureListener { _ ->
-                val sampleUser = fallbackUser()
-                future.complete(sampleUser)
+            .addOnFailureListener { e ->
+                future.completeExceptionally(e)
             }
 
         return future
