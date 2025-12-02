@@ -51,7 +51,11 @@ class UserListAdapter(
             statusTv.text = user.status.value
 
             if (!user.profilePhoto.isNullOrEmpty()) {
-                Glide.with(context).load(user.profilePhoto).into(profilePic)
+                Glide.with(context)
+                    .load(user.profilePhoto)
+                    .placeholder(R.drawable.baseline_account_circle_24)
+                    .circleCrop()
+                    .into(profilePic)
             } else {
                 profilePic.setImageResource(R.drawable.baseline_account_circle_24)
             }

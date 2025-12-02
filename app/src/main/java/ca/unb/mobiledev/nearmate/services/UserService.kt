@@ -1,6 +1,7 @@
 package ca.unb.mobiledev.nearmate.services
 
 import android.net.Uri
+import ca.unb.mobiledev.nearmate.constants.Country
 import ca.unb.mobiledev.nearmate.constants.Presence
 import ca.unb.mobiledev.nearmate.constants.Status
 import ca.unb.mobiledev.nearmate.models.User
@@ -90,7 +91,9 @@ class UserService : IUserService {
                     userName = null,
                     prefersToShowUserName = false,
                     email = email,
-                    country = null,
+                    //Hardcoding initially to Canada for now, and they can change in the profile
+                    // but in the future, we can get this from the latLng since we already have it within this scope
+                    country = Country.CANADA,
                     status = Status.JUST_HANGING_OUT,
                     presence = Presence.ONLINE,
                     profilePhoto = null,

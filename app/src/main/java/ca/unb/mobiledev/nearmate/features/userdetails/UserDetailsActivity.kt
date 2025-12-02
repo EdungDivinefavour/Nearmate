@@ -33,7 +33,6 @@ class UserDetailsActivity : AppCompatActivity() {
         supportActionBar?.title = ""
         supportActionBar?.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.WHITE))
 
-        // Ensure content is below the action bar
         val rootLayout = findViewById<android.view.ViewGroup>(R.id.rootLayout)
         rootLayout?.post {
             val tv = android.util.TypedValue()
@@ -105,16 +104,10 @@ class UserDetailsActivity : AppCompatActivity() {
             usernameText.visibility = android.view.View.GONE
         }
 
-        // Display country
         countryText.text = user.country?.value ?: "Not specified"
-
-        // Display status
         statusText.text = user.status.value
-
-        // Display presence
         presenceText.text = user.presence.value
 
-        // Load profile photo
         if (!user.profilePhoto.isNullOrEmpty()) {
             Glide.with(this)
                 .load(user.profilePhoto)
