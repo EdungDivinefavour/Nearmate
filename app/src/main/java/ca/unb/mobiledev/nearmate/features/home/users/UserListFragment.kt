@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,7 @@ class UserListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: UserListAdapter
     private val users = mutableListOf<User>()
+    private var greetingTextView: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,9 +33,12 @@ class UserListFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.userListRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        greetingTextView = view.findViewById(R.id.greetingTextView)
 
         adapter = UserListAdapter(users)
         recyclerView.adapter = adapter
+
+        updateGreeting()
 
         locationService.getLocation { location ->
             if (location == null) {
@@ -48,6 +53,38 @@ class UserListFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        greetingTextView = null
+    }
+
+    private fun updateGreeting() {
+        userService.getCurrentUser()
+            .thenAccept { user ->
+                activity?.runOnUiThread {
+                    if (!isAdded) return@runOnUiThread
+                    val nameToShow = user?.let {
+                        if (it.prefersToShowUserName && !it.userName.isNullOrBlank()) {
+                            it.userName
+                        } else {
+                            it.firstName
+                        }
+                    }?.takeIf { name -> name.isNotBlank() }
+
+                    val greeting = nameToShow?.let { getString(R.string.home_greeting, it) }
+                        ?: getString(R.string.home_greeting_generic)
+                    greetingTextView?.text = greeting
+                }
+            }
+            .exceptionally {
+                activity?.runOnUiThread {
+                    if (!isAdded) return@runOnUiThread
+                    greetingTextView?.text = getString(R.string.home_greeting_generic)
+                }
+                null
+            }
     }
 
     companion object {

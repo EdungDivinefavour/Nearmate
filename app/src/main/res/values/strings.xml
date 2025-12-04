@@ -39,6 +39,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="let_s_find_a_friend_near_you">Let\'s find a friend near you</string>
+    <string name="home_greeting_generic">Hey there</string>
+    <string name="home_greeting">Hey %1$s</string>
     <string name="username">Username</string>
     <string name="enter_your_username">Enter your username (optional)</string>
     <string name="prefer_to_show_username">Prefer to show username</string>
